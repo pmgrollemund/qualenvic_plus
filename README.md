@@ -10,11 +10,11 @@ This repository contains the R source code and data necessary to reproduce the a
   - Principal Component Analysis (PCA)
   - Analysis of Variance (ANOVA)
   - Correlation Analysis
-
+  
 ## Installation
-1. Clonez ce dépôt sur votre machine locale.
-2. Assurez-vous d'avoir R (version 4.1.2 ou supérieure) installé sur votre système.
-3. Les packages R suivants sont nécessaires pour exécuter les scripts :
+1. Clone this repository to your local machine.
+2. Ensure you have R (version 4.1.2 or higher) installed on your system.
+3. The following R packages are required to run the scripts:
    - FactoMineR
    - factoextra
    - nFactors
@@ -26,7 +26,8 @@ This repository contains the R source code and data necessary to reproduce the a
    - ggpubr
    - GGally
 
-   Vous pouvez les installer en exécutant `install.packages("nom_du_package")` dans la console R.
+   You can install them by executing `install.packages("package_name")` in the R console.
+
 
 
 ## Usage
