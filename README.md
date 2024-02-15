@@ -7,9 +7,11 @@ This repository contains the R source code and data necessary to reproduce the a
 - Implementation of statistical analysis methods in R to assess the relationship between milk quality and environmental impact.
 - Data preprocessing scripts to clean and prepare the datasets for analysis.
 - Statistical modeling scripts to perform the correlation analysis, including:
-  - Principal Component Analysis (PCA)
+  - Automatic Principal Component Analysis (PCA)
   - Analysis of Variance (ANOVA)
   - Correlation Analysis
+- Customization flexibility: The scripts are structured to enable easy customization. By modifying the information in the `data/dictionary.xlsx` file, users can perform similar analyses on different datasets without needing to change the scripts themselves. This feature enhances efficiency and encourages exploration of various datasets.
+
   
 ## Installation
 1. Clone this repository to your local machine.
