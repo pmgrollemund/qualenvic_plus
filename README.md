@@ -21,8 +21,8 @@ This repository contains the R source code and data necessary to reproduce the a
 - Open your terminal/command prompt.
 - Navigate to the directory containing the R scripts.
 - Run the appropriate R scripts for the analysis you wish to perform using the `Rscript` command, for example:
-  - For PCA analysis: `Rscript PCA_analysis.R`
-  - For ANOVA analysis: `Rscript ANOVA_analysis.R var_name` (e.g., `Rscript ANOVA_analysis.R GEN_AB`)
+  - For PCA analysis: `Rscript PCA.R`
+  - For ANOVA analysis: `Rscript ANOVA.R var_name` (e.g., `Rscript ANOVA.R GEN_AB`)
   - For correlation analysis: `Rscript correlation_analysis.R`
 
 ### Using RStudio
