@@ -32,7 +32,7 @@ cat(separator,"\n",section,section," PCA analysis \n",
 cat(section,"Initialisation.\n")
 cat(task,"Load options.\n")
 
-data_path <- "."
+data_path <- "data"
 data_file_name <- "database.xlsx"
 dictionnary_file_name <- "dictionnary.xlsx"
 ncp_max <- 50 

@@ -33,7 +33,7 @@ cat(separator,"\n",section,section," Correlation analysis \n",
 cat(section,"Initialisation.\n")
 cat(task,"Load options.\n")
 
-data_path <- "."
+data_path <- "data"
 data_file_name <- "database.xlsx"
 dictionnary_file_name <- "dictionnary.xlsx"
 
@@ -206,7 +206,7 @@ for(j in 1:(n_var-1)){
     graph_name <- paste("plot_",colnames(data)[j],"_",colnames(data)[k],".pdf",sep="")
     
     suppressMessages(ggsave(plot = p,filename = file.path(folder,graph_name),
-          height = 4,width = 7))
+                            height = 4,width = 7))
   }
 }
 
