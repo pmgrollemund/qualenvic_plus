@@ -168,6 +168,7 @@ cat(task,"Data importation.\n")
 data <- read_xlsx(file.path(data_path,data_file_name),col_names = TRUE,skip=1)
 data <- as.data.frame(data)
 
+
 # Remove non-necessary columns ----
 cat(task,"Remove non-necessary columns.\n")
 if(sum(!(dictionary$name %in% colnames(data))) > 0){
