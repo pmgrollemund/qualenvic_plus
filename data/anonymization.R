@@ -1,6 +1,5 @@
 n <- nrow(data)
 p <- ncol(data)
-set.seed(1)
 
 for(i in 1:n){
  data$CODE_EA_QUALENVIC[i] <- paste(
@@ -28,5 +27,3 @@ for(j in 7:p){
  data[,j] <- round(data[,j],2)
 }
 
-
-xlsx::write.xlsx(data,file = "./data/database.xlsx",row.names = F)
