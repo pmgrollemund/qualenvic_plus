@@ -17,11 +17,21 @@ This repository contains the R source code and data necessary to reproduce the a
 3. Install any required R packages, that are missing in your system, by running `install.packages("package_name")` in the R console.
 
 ## Usage
-- Review the documentation provided within each R script to understand its functionality and usage.
-- Run the appropriate R scripts for the analysis you wish to perform:
-  - `PCA.R` for Principal Component Analysis
-  - `ANOVA.R` for Analysis of Variance
-  - `Correlation_Analysis.R` for Correlation Analysis
+### Running the Scripts via Terminal/Command Prompt
+- Open your terminal/command prompt.
+- Navigate to the directory containing the R scripts.
+- Run the appropriate R scripts for the analysis you wish to perform using the `Rscript` command, for example:
+  - For PCA analysis: `Rscript PCA_analysis.R`
+  - For ANOVA analysis: `Rscript ANOVA_analysis.R var_name` (e.g., `Rscript ANOVA_analysis.R GEN_AB`)
+  - For correlation analysis: `Rscript correlation_analysis.R`
+
+### Using RStudio
+- Open RStudio.
+- Open the desired R script (`PCA_analysis.R`, `ANOVA_analysis.R`, or `correlation_analysis.R`).
+- Execute the script line by line or by selecting the entire script and running it.
+
+## Data
+Please note that the dataset included in this repository is a reduced and anonymized version of the actual data used for the article. 
 
 ## Authors
 - [Grollemund Paul-Marie](https://github.com/pmgrollemund/)
