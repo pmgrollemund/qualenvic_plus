@@ -11,6 +11,8 @@ This repository contains the R source code and data necessary to reproduce the a
   - Analysis of Variance (ANOVA)
   - Correlation Analysis
 - Customization flexibility: The scripts are structured to enable easy customization. By modifying the information in the `data/dictionary.xlsx` file, users can perform similar analyses on different datasets without needing to change the scripts themselves. This feature enhances efficiency and encourages exploration of various datasets.
+- Automatic result generation: Each script generates a `results` folder containing all necessary information and graphics as a result of the analysis, enhancing organization and accessibility of the output.
+
 
   
 ## Installation
