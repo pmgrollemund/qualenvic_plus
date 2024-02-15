@@ -12,9 +12,22 @@ This repository contains the R source code and data necessary to reproduce the a
   - Correlation Analysis
 
 ## Installation
-1. Clone this repository to your local machine.
-2. Ensure you have R (version 4.1.2) installed on your system.
-3. Install any required R packages, that are missing in your system, by running `install.packages("package_name")` in the R console.
+1. Clonez ce dépôt sur votre machine locale.
+2. Assurez-vous d'avoir R (version 4.1.2 ou supérieure) installé sur votre système.
+3. Les packages R suivants sont nécessaires pour exécuter les scripts :
+   - FactoMineR
+   - factoextra
+   - nFactors
+   - readxl
+   - tidyverse
+   - missMDA
+   - ggforce
+   - rstatix
+   - ggpubr
+   - GGally
+
+   Vous pouvez les installer en exécutant `install.packages("nom_du_package")` dans la console R.
+
 
 ## Usage
 ### Running the Scripts via Terminal/Command Prompt
