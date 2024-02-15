@@ -35,7 +35,7 @@ Please note that the dataset included in this repository is a reduced and anonym
 
 ## Authors
 - [Grollemund Paul-Marie](https://github.com/pmgrollemund/)
-- [Lepoivre Mathieu]
+- Lepoivre Mathieu
 
 ## License
 This project is licensed under a [Creative Commons License](https://creativecommons.org/) allowing free reuse of the research work. For more information, please see the [LICENSE.md](LICENSE.md) file.
