@@ -43,7 +43,7 @@ This repository contains the R source code and data necessary to reproduce the a
 
 ### Using RStudio
 - Open RStudio.
-- Open the desired R script (`PCA_analysis.R`, `ANOVA_analysis.R`, or `correlation_analysis.R`).
+- Open the desired R script (`PCA.R`, `ANOVA.R`, or `correlation_analysis.R`).
 - Execute the script line by line or by selecting the entire script and running it.
 
 ## Data
