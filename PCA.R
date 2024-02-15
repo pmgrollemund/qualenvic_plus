@@ -34,7 +34,7 @@ cat(task,"Load options.\n")
 
 data_path <- "data"
 data_file_name <- "database.xlsx"
-dictionnary_file_name <- "dictionnary.xlsx"
+dictionary_file_name <- "dictionary.xlsx"
 ncp_max <- 50 
 
 quanti_sup_folder <- "quanti_sup"
@@ -67,7 +67,7 @@ get_component_nb <- function(eig_value){
   res <- list(component_nb=component_nb, rankings=rankings)
   return(res)
 }
-PCA_component_interpretation <- function(res_PCA,component_nb,dictionnary){
+PCA_component_interpretation <- function(res_PCA,component_nb,dictionary){
   
   # Levels informations
   res_var <- data.frame(
@@ -90,7 +90,7 @@ PCA_component_interpretation <- function(res_PCA,component_nb,dictionnary){
   if(nrow(res_var) > 0){
     for(i in 1:nrow(res_var)){
       res_var$var_complete_name[i] <- 
-        dictionnary$full_name[dictionnary$quick_name == res_var$var_name[i]]
+        dictionary$full_name[dictionary$quick_name == res_var$var_name[i]]
     } 
   }
   
@@ -126,37 +126,37 @@ compute_circle <- function(center = c(0,0),radius = 1, npoints = 1e3){
   return(data.frame(x = x, y = y))
 }
 
-#### Work with the dictionnary ----
+#### Work with the dictionary ----
 cat(section,"Pretreat.\n")
-cat(sub_section,"Dictionnary.\n")
+cat(sub_section,"dictionary.\n")
 
-# Import the dictionnary ----
-cat(task,"Import the Dictionnary.\n")
-dictionnary <- read_xlsx(file.path(data_path,dictionnary_file_name))
+# Import the dictionary ----
+cat(task,"Import the dictionary.\n")
+dictionary <- read_xlsx(file.path(data_path,dictionary_file_name))
 
-# Keep only required columns from  dictionnary ----
-cat(task,"Clean up Dictionnary.\n")
-id_name <- dictionnary$CAP2ER_name[which(dictionnary$Type == "id")][1]
-var_dictionnary <- c("CAP2ER_name","Role","Type","full_name","quick_name")
-dictionnary <- dictionnary[,var_dictionnary]
-colnames(dictionnary)[1:2] <- c("name","role")
+# Keep only required columns from  dictionary ----
+cat(task,"Clean up dictionary.\n")
+id_name <- dictionary$CAP2ER_name[which(dictionary$Type == "id")][1]
+var_dictionary <- c("CAP2ER_name","Role","Type","full_name","quick_name")
+dictionary <- dictionary[,var_dictionary]
+colnames(dictionary)[1:2] <- c("name","role")
 
-# Dictionnary pretreament ----
-cat(task,"Dictionnary pretreament.\n")
-dictionnary <- dictionnary[which(!is.na(dictionnary$name)),]
+# dictionary pretreament ----
+cat(task,"dictionary pretreament.\n")
+dictionary <- dictionary[which(!is.na(dictionary$name)),]
 
 # Remove NA from quick names ----
 cat(task,"Remove NA quick names.\n")
-dictionnary_NA <- dictionnary[is.na(dictionnary$quick_name),]
-dictionnary <- dictionnary[!is.na(dictionnary$quick_name),]
+dictionary_NA <- dictionary[is.na(dictionary$quick_name),]
+dictionary <- dictionary[!is.na(dictionary$quick_name),]
 
 # Remove non-unique id ----
 cat(task,"Remove non-unique id.\n")
-for(i in 1:nrow(dictionnary)){
-  non_unique_index <- which(dictionnary$quick_name == dictionnary$quick_name[i])
+for(i in 1:nrow(dictionary)){
+  non_unique_index <- which(dictionary$quick_name == dictionary$quick_name[i])
   non_unique_index <- non_unique_index[non_unique_index != i]
   if(length(non_unique_index) > 0){
-    dictionnary <- dictionnary[-non_unique_index,]
+    dictionary <- dictionary[-non_unique_index,]
   }
 }
 
@@ -170,9 +170,9 @@ data <- as.data.frame(data)
 
 # Remove non-necessary columns ----
 cat(task,"Remove non-necessary columns.\n")
-if(sum(!(dictionnary$name %in% colnames(data))) > 0){
+if(sum(!(dictionary$name %in% colnames(data))) > 0){
   removed_var <- data.frame(
-    name = colnames(data)[which(!(dictionnary$name %in% colnames(data)))],
+    name = colnames(data)[which(!(dictionary$name %in% colnames(data)))],
     reason = "no data"
   )
 }else{
@@ -197,22 +197,22 @@ if(length(import_pb_index) > 0){
   
   # Remove wrong variables ----
   data <- data[,-import_pb_index]
-  var_pb_importation_dictionnary <- which(dictionnary$name %in% var_pb_importation)
+  var_pb_importation_dictionary <- which(dictionary$name %in% var_pb_importation)
   
   # Update ----
   if(!is.null(removed_var)){
     removed_var <- rbind(removed_var,
                           data.frame(
-                            name = var_pb_importation_dictionnary,
+                            name = var_pb_importation_dictionary,
                             reason = "importation_problem"
                           ))
   }
 }
 
 # Select ----
-index <- which(dictionnary$role %in% c("to_explain","explicative")
-               & !(dictionnary$Type %in% c("id","date")))
-col_to_keep <- which(colnames(data) %in% dictionnary$name[index])
+index <- which(dictionary$role %in% c("to_explain","explicative")
+               & !(dictionary$Type %in% c("id","date")))
+col_to_keep <- which(colnames(data) %in% dictionary$name[index])
 if(length(col_to_keep) >0){
   removed_var <- rbind(removed_var,
                        data.frame(
@@ -225,7 +225,7 @@ if(length(col_to_keep) >0){
 # Var names ----
 cat(task,"Use the quick names.\n")
 for(j in 1:ncol(data)){
-  colnames(data)[j] <- dictionnary$quick_name[dictionnary$name == colnames(data)[j]]
+  colnames(data)[j] <- dictionary$quick_name[dictionary$name == colnames(data)[j]]
 }
 
 # Check data dispersion ----
@@ -257,8 +257,8 @@ if(length(identical) > 0){
 aka_id <- which(get_variety == nrow(data))
 
 aka_id <- as.data.frame(cbind(names(aka_id),aka_id))
-colnames(aka_id) <- c(colnames(dictionnary)[1],"index")
-aka_id <- merge(aka_id,dictionnary,by=colnames(dictionnary)[1])
+colnames(aka_id) <- c(colnames(dictionary)[1],"index")
+aka_id <- merge(aka_id,dictionary,by=colnames(dictionary)[1])
 
 aka_id_categorial <- which(aka_id$Type == "categorial")
 if(length(aka_id_categorial) > 0 ){
@@ -274,17 +274,17 @@ if(length(aka_id_categorial) > 0 ){
 }
 
 
-# Select don dictionnary ----
-dictionnary <- dictionnary[which(dictionnary$quick_name %in% colnames(data)),]
+# Select don dictionary ----
+dictionary <- dictionary[which(dictionary$quick_name %in% colnames(data)),]
 
-# Removed data columns not specified in dictionnary ----
-cat(task,"Removed data columns not specified in dictionnary.\n")
-not_in_dictionnary <- which(!(colnames(data) %in% dictionnary$quick_name))
-if(length(not_in_dictionnary) > 0){
+# Removed data columns not specified in dictionary ----
+cat(task,"Removed data columns not specified in dictionary.\n")
+not_in_dictionary <- which(!(colnames(data) %in% dictionary$quick_name))
+if(length(not_in_dictionary) > 0){
   removed_var <- rbind(removed_var,
                         data.frame(
-                          name = colnames(data)[not_in_dictionnary],
-                          reason = "not in dictionnary"
+                          name = colnames(data)[not_in_dictionary],
+                          reason = "not in dictionary"
                         )
   )
 }else{
@@ -292,13 +292,13 @@ if(length(not_in_dictionnary) > 0){
 }
 
 # Do remove
-to_remove <- c(identical,aka_id_categorial,not_in_dictionnary)
+to_remove <- c(identical,aka_id_categorial,not_in_dictionary)
 if(length(to_remove) > 0)
   data <- data[,-to_remove]
 
 # Get nature and role of each column ----
 cat(task,"Get nature and role of each column.\n")
-names_categorial <- dictionnary$quick_name[dictionnary$Type == "categorial"]
+names_categorial <- dictionary$quick_name[dictionary$Type == "categorial"]
 for(i in 1:length(names_categorial)){
   index <- which(colnames(data) == names_categorial[i])
   if(length(index) > 0)
@@ -306,8 +306,8 @@ for(i in 1:length(names_categorial)){
 }
 
 names_numeric <- unique(
-  dictionnary$quick_name[dictionnary$role == "explicative" &
-                                (dictionnary$Type == "numeric" | dictionnary$Type == "frequency")]
+  dictionary$quick_name[dictionary$role == "explicative" &
+                                (dictionary$Type == "numeric" | dictionary$Type == "frequency")]
 )
 for(i in 1:length(names_numeric)){
   index <- which(colnames(data) == names_numeric[i])
@@ -315,8 +315,8 @@ for(i in 1:length(names_numeric)){
 }
 
 quanti_covariable_name <- unique(
-  dictionnary$quick_name[dictionnary$role == "explicative" &
-                                (dictionnary$Type == "numeric" | dictionnary$Type == "frequency")]
+  dictionary$quick_name[dictionary$role == "explicative" &
+                                (dictionary$Type == "numeric" | dictionary$Type == "frequency")]
 )
 
 #### ACP ----
@@ -330,14 +330,14 @@ quanti_sup <- NULL
 quali_sup <- NULL
 
 names_numeric <- 
-  dictionnary$quick_name[dictionnary$role == "to_explain" &
-                                (dictionnary$Type == "numeric" | dictionnary$Type == "frequency")]
+  dictionary$quick_name[dictionary$role == "to_explain" &
+                                (dictionary$Type == "numeric" | dictionary$Type == "frequency")]
 if(length(names_numeric) > 0) 
   quanti_sup <- which(colnames(data) %in% names_numeric)
 
 names_categorial  <- 
-  dictionnary$quick_name[dictionnary$role == "to_explain" & 
-                                dictionnary$Type == "categorial"]
+  dictionary$quick_name[dictionary$role == "to_explain" & 
+                                dictionary$Type == "categorial"]
 if(length(names_categorial) > 0) 
   quali_sup <- which(colnames(data) %in% names_categorial)
 
@@ -356,7 +356,7 @@ write.csv(data,file = file.path(output_dir,"data_to_PCA.csv"))
 var_categorial <- NULL
 for(j in 1:ncol(data)){
   if( class(data[,j]) %in% c("character","factor") && 
-      dictionnary[dictionnary$quick_name == colnames(data)[j],"role"] == "explicative")
+      dictionary[dictionary$quick_name == colnames(data)[j],"role"] == "explicative")
     var_categorial <- c(var_categorial,colnames(data)[j])
 }
 if(length(var_categorial) > 0)
@@ -428,13 +428,13 @@ invisible(dev.off())
 # Component interpretation ----
 cat(task,"Numerical support for component interpretation.\n")
 for(j in 1:component_nb){
-  interpretation <- PCA_component_interpretation(res_PCA,j,dictionnary)
+  interpretation <- PCA_component_interpretation(res_PCA,j,dictionary)
   write.csv(interpretation,file = file.path(component_folder,
                                             paste("component_",j,".csv",sep="")))
 }
 if(total_component_nb > component_nb){
   for(j in (component_nb+1):total_component_nb){
-    interpretation <- PCA_component_interpretation(res_PCA,j,dictionnary)
+    interpretation <- PCA_component_interpretation(res_PCA,j,dictionary)
     write.csv(interpretation,file = file.path(additionnal_component_folder,
                                               paste("component_",j,".csv",sep="")))
   }
@@ -461,7 +461,7 @@ if(component_nb > ncp_max)
 
 data_name <- colnames(data)
 for(j in 1:length(data_name))
-  data_name[j] <- dictionnary$name[dictionnary$quick_name == data_name[j]]
+  data_name[j] <- dictionary$name[dictionary$quick_name == data_name[j]]
 group <- unique(unlist(lapply(strsplit(data_name,split="_"),function(v) v[1])))
 group_var <- data.frame(
   var = colnames(data),

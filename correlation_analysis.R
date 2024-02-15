@@ -35,7 +35,7 @@ cat(task,"Load options.\n")
 
 data_path <- "data"
 data_file_name <- "database.xlsx"
-dictionnary_file_name <- "dictionnary.xlsx"
+dictionary_file_name <- "dictionary.xlsx"
 
 #### Required packages ----
 cat(task,"Import packages.\n")
@@ -43,33 +43,33 @@ suppressPackageStartupMessages(library(readxl))
 suppressPackageStartupMessages(library(GGally))
 
 
-#### Work with the dictionnary ----
+#### Work with the dictionary ----
 cat(section,"Pretreat.\n")
-cat(sub_section,"Dictionnary.\n")
+cat(sub_section,"dictionary.\n")
 
-# Import the dictionnary ----
-cat(task,"Import the Dictionnary.\n")
-dictionnary <- read_xlsx(file.path(data_path,dictionnary_file_name))
+# Import the dictionary ----
+cat(task,"Import the dictionary.\n")
+dictionary <- read_xlsx(file.path(data_path,dictionary_file_name))
 
 
-# Keep only required columns from  dictionnary ----
-cat(task,"Clean up Dictionnary.\n")
-id_name <- dictionnary$CAP2ER_name[which(dictionnary$Type == "id")][1]
-var_dictionnary <- c("CAP2ER_name","Correlation","Type","full_name","quick_name")
-dictionnary <- dictionnary[,var_dictionnary]
-colnames(dictionnary)[1] <- c("name")
+# Keep only required columns from  dictionary ----
+cat(task,"Clean up dictionary.\n")
+id_name <- dictionary$CAP2ER_name[which(dictionary$Type == "id")][1]
+var_dictionary <- c("CAP2ER_name","Correlation","Type","full_name","quick_name")
+dictionary <- dictionary[,var_dictionary]
+colnames(dictionary)[1] <- c("name")
 
-# Dictionnary pretreament ----
-cat(task,"Dictionnary pretreament.\n")
-dictionnary <- dictionnary[which(!is.na(dictionnary$name)),]
+# dictionary pretreament ----
+cat(task,"dictionary pretreament.\n")
+dictionary <- dictionary[which(!is.na(dictionary$name)),]
 
 # Remove non-unique id ----
 cat(task,"Remove non-unique id.\n")
-for(i in 1:nrow(dictionnary)){
-  non_unique_index <- which(dictionnary$quick_name == dictionnary$quick_name[i])
+for(i in 1:nrow(dictionary)){
+  non_unique_index <- which(dictionary$quick_name == dictionary$quick_name[i])
   non_unique_index <- non_unique_index[non_unique_index != i]
   if(length(non_unique_index) > 0){
-    dictionnary <- dictionnary[-non_unique_index,]
+    dictionary <- dictionary[-non_unique_index,]
   }
 }
 
@@ -83,9 +83,9 @@ data <- as.data.frame(data)
 
 # Remove non-necessary columns ----
 cat(task,"Remove non-necessary columns.\n")
-if(sum(!(dictionnary$name %in% colnames(data))) > 0){
+if(sum(!(dictionary$name %in% colnames(data))) > 0){
   removed_var <- data.frame(
-    name = colnames(data)[which(!(dictionnary$name %in% colnames(data)))],
+    name = colnames(data)[which(!(dictionary$name %in% colnames(data)))],
     reason = "no data"
   )
 }else{
@@ -110,21 +110,21 @@ if(length(import_pb_index) > 0){
   
   # Remove wrong variables ----
   data <- data[,-import_pb_index]
-  var_pb_importation_dictionnary <- which(dictionnary$name %in% var_pb_importation)
+  var_pb_importation_dictionary <- which(dictionary$name %in% var_pb_importation)
   
   # Update ----
   if(!is.null(removed_var)){
     removed_var <- rbind(removed_var,
                          data.frame(
-                           name = var_pb_importation_dictionnary,
+                           name = var_pb_importation_dictionary,
                            reason = "importation_problem"
                          ))
   }
 }
 
 # Select ----
-index <- which(dictionnary$Correlation == "yes" & dictionnary$Type %in% c("numeric","frequency"))
-col_to_keep <- which(colnames(data) %in% dictionnary$name[index])
+index <- which(dictionary$Correlation == "yes" & dictionary$Type %in% c("numeric","frequency"))
+col_to_keep <- which(colnames(data) %in% dictionary$name[index])
 if(length(col_to_keep) >0){
   removed_var <- rbind(removed_var,
                        data.frame(
@@ -137,7 +137,7 @@ if(length(col_to_keep) >0){
 # Var names ----
 cat(task,"Use the quick names.\n")
 for(j in 1:ncol(data)){
-  colnames(data)[j] <- dictionnary$quick_name[dictionnary$name == colnames(data)[j]]
+  colnames(data)[j] <- dictionary$quick_name[dictionary$name == colnames(data)[j]]
 }
 
 
